@@ -1,0 +1,34 @@
+const axios = require("axios");
+const cheerio = require("cheerio");
+
+async function scrapeComplete(page = 1) {
+  const url = `https://otakudesu.best/complete-anime/page/${page}/`;
+
+  const { data } = await axios.get(url);
+  const $ = cheerio.load(data);
+
+  const results = [];
+
+  $(".venz ul li .detpost").each((i, el) => {
+    const link = $(el).find(".thumb a").attr("href");
+    let slug = null;
+
+    if (link && link.includes("/anime/")) {
+      slug = link.split("/anime/")[1].replace("/", "");
+    }
+
+    results.push({
+      title: $(el).find(".jdlflm").text().trim(),
+      link,
+      slug,  // ← DITAMBAHKAN
+      thumbnail: $(el).find(".thumbz img").attr("src"),
+      episode: $(el).find(".epz").text().trim(),
+      rating: $(el).find(".epztipe").text().trim(),
+      tanggal: $(el).find(".newnime").text().trim(),
+    });
+  });
+
+  return results;
+}
+
+module.exports = { scrapeComplete };

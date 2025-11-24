@@ -1,17 +1,22 @@
-import express from "express";
-import { scrapeTop10 } from "./scraper/top10.js";
+const express = require("express");
 
+const homeRoute = require("./routes/home");
+const ongoingRoute = require("./routes/ongoing");
+const completeRoute = require("./routes/complete");
+const detailRoute = require("./routes/detail");
+const searchRoute = require("./routes/search");
 const app = express();
 
-app.get("/top10", async (re, res) => {
-  try {
-    const data = await scrapeTop10();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ eror: "gagal scraping!" });
-  }
+app.get("/", (req, res) => {
+  res.send("Otakudesu scraping by mojoWasTaken");
 });
 
-app.listen(3000, () => {
-  console.log("server berjalan di port 3000");
-});
+// router
+app.use("/api/anime/home", homeRoute);
+app.use("/api/anime/ongoing", ongoingRoute);
+app.use("/api/anime/complete", completeRoute);
+app.use("/api/anime/detail", detailRoute);
+app.use("/api/anime/search", searchRoute);
+
+const PORT = 3000;
+app.listen(PORT, () => console.log("Server running on port", PORT));
