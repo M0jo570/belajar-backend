@@ -1,0 +1,37 @@
+const axios = require("axios");
+const cheerio = require("cheerio");
+
+async function scrapeAnimeList() {
+  const url = "https://otakudesu.best/anime-list/";
+  
+  const { data } = await axios.get(url, {
+    headers: { "User-Agent": "Mozilla/5.0" }
+  });
+  
+  const $ = cheerio.load(data);
+  const results = [];
+  
+  $(".bariskelom").each((i, section) => {
+    $(section).find("ul li").each((j, el) => {
+      const link = $(el).find("a").attr("href");
+      const title = $(el).find("a").text().trim();
+      
+      if (!link || !title) return;
+      
+      const slug = link.split("/anime")[1]?.replace("/", "") || null;
+      
+      results.push({
+        title,
+        slug,
+        link,
+      });
+    });
+  });
+  
+  console.log("jumlah anime yang ditemukan di endpoint /api/anime/list:", results.length);
+
+  return results;
+  
+}
+
+module.exports = { scrapeAnimeList };

@@ -3,6 +3,7 @@ const scrapeOngoing  = require("../scraper/ongoing");
 const { scrapeComplete } = require("../scraper/complete");
 const { scrapeDetail } = require("../scraper/detail");
 const { scrapeSearch } = require("../scraper/search");
+const { scrapeAnimeList } = require("../scraper/animeList");
 
 async function getHome(req, res) {
   try {
@@ -51,8 +52,43 @@ async function getSearch(req, res) {
     
     res.json({ status:true, query, result:data });
   } catch(err) {
-    res.status(500).json({ status:false, eror: err.message});
+    res.status(500).json({ status:false, eror: err.message });
   }
 }
 
-module.exports = { getHome, getOngoing, getComplete, getDetail, getSearch };
+async function getAnimeList(req, res) {
+  try {
+    
+    let { filter } =  req.query;
+    filter = filter ?String(filter).trim().toUpperCase() : null;
+    
+    const data = await scrapeAnimeList();
+    
+    if (!filter) {
+      return res.json({
+        status:true,
+        total:data.length,
+        filter:null,
+        data
+      });
+    }
+    
+    let filtered = null;
+    
+    if (filter == "#" || /^\d$/.test(filter)) {
+      filtered = data.filter(a => /^\d/.test(a.title));
+    } else {
+      filtered = data.filter(a => a.title.toUpperCase().startsWith(filter));
+    }
+    res.json({
+      status:true,
+      filter,
+      total: filtered.length,
+      data: filtered,
+    });
+  } catch (err) {
+    res.status(500).json({ status:false, eror:err.message });
+  }
+}
+
+module.exports = { getHome, getOngoing, getComplete, getDetail, getSearch, getAnimeList };

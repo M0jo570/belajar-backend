@@ -39,6 +39,8 @@ async function scrapeDetail(slug) {
 
     episodes.push({ title, link, tanggal });
   });
+  
+  console.log("jumlah episode yang ditemukan di endpoint /api/anime/detail/:slug/", slug,":", episodes.length);
 
   return {
     slug,

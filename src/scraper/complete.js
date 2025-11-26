@@ -20,13 +20,15 @@ async function scrapeComplete(page = 1) {
     results.push({
       title: $(el).find(".jdlflm").text().trim(),
       link,
-      slug,  // ← DITAMBAHKAN
+      slug,
       thumbnail: $(el).find(".thumbz img").attr("src"),
       episode: $(el).find(".epz").text().trim(),
       rating: $(el).find(".epztipe").text().trim(),
       tanggal: $(el).find(".newnime").text().trim(),
     });
   });
+  
+  console.log("jumlah anime hang ditemukan di endpoint /api/anime/complete:", results.length);
 
   return results;
 }

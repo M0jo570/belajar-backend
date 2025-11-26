@@ -22,13 +22,15 @@ async function scrapeHome() {
     result.push({
       title: card.find("h2.jdlflm").text().trim(),
       link,
-      slug, // ← DITAMBAHKAN
+      slug,
       thumbnail: card.find(".thumb img").attr("src"),
       episode: card.find(".epz").text().trim(),
       hari: card.find(".epztipe").text().trim(),
       tanggal: card.find(".newnime").text().trim()
     });
   });
+  
+  console.log("jumlah anime yang ditemukan di endpoint /api/anime/home:", result.length)
 
   return result;
 }

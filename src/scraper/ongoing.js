@@ -20,13 +20,15 @@ async function scrapeOngoing(page = 1) {
     result.push({
       title: $(el).find(".thumb .jdlflm").text().trim(),
       link,
-      slug, // ← DITAMBAHKAN
+      slug,
       thumbnail: $(el).find(".thumb img").attr("src"),
       episode: $(el).find(".epz").text().trim(),
       hari: $(el).find(".epztipe").text().trim(),
       tanggal: $(el).find(".newnime").text().trim(),
     });
   });
+  
+  console.log("jumlah anime yang ditemukan di endpoint /api/anime/ongoing:", result.length)
 
   return result;
 }
