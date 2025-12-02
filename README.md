@@ -1,5 +1,8 @@
 Project ini adalah hasil saya belajar backend jadi ini hanyalah untuk pembelajaran dan saya tidak menyarankan menggunakan nya di public,use this your own risk.
 
+# Otakudesu scraping.
+
+
 # install Dependecies
 
 ```
@@ -14,7 +17,7 @@ npm install
 
 # create .env file
 
-jangan lupa membuat .env file dan buat bagian seperti ini di dalam nya.
+jangan lupa membuat .env file dan isi url link di dalam nya.
 
 ```
 BASE_URL=
