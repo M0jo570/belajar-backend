@@ -3,6 +3,9 @@ Project ini adalah hasil saya belajar backend jadi ini hanyalah untuk pembelajar
 # Otakudesu scraping.
 
 
+
+
+
 # install Dependecies
 
 ```
